@@ -1,0 +1,95 @@
+---
+import { Image } from 'astro:assets';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import photo from '../assets/blog-placeholder-about.jpg';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<div class="profile">
+				<Image
+					src={photo}
+					alt="Aaryan Rampal"
+					width={72}
+					height={72}
+					class="avatar"
+				/>
+				<div class="profile-text">
+					<h1>Aaryan Rampal</h1>
+					<p class="tagline">Lorem ipsum · Dolor sit amet</p>
+				</div>
+			</div>
+
+			<div class="bio">
+				<p>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
+					incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+					exercitation ullamco laboris.
+				</p>
+				<p>
+					Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+					fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.
+				</p>
+			</div>
+
+			<div class="interests">
+				<p class="label">Interests</p>
+				<p>Lorem ipsum · Dolor sit amet · Consectetur · Adipiscing elit · Sed eiusmod</p>
+			</div>
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	.profile {
+		display: flex;
+		align-items: center;
+		gap: 1.25em;
+		margin-bottom: 2em;
+	}
+
+	.avatar {
+		width: 72px;
+		height: 72px;
+		border-radius: 50%;
+		object-fit: cover;
+		flex-shrink: 0;
+	}
+
+	.profile-text h1 {
+		font-size: 1.5em;
+		margin: 0 0 0.15em 0;
+	}
+
+	.tagline {
+		font-size: 0.75em;
+		letter-spacing: 0.15em;
+		text-transform: uppercase;
+		color: var(--accent);
+		margin: 0;
+		font-family: Georgia, serif;
+	}
+
+	.bio {
+		margin-bottom: 2em;
+	}
+
+	.interests .label {
+		margin-bottom: 0.25em;
+	}
+
+	.interests p:last-child {
+		color: var(--black);
+		margin: 0;
+	}
+</style>
