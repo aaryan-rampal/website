@@ -6,6 +6,8 @@ import { defineConfig } from 'astro/config';
 import rehypeKatex from 'rehype-katex';
 import remarkMath from 'remark-math';
 
+import cloudflare from '@astrojs/cloudflare';
+
 export default defineConfig({
 	site: 'https://www.aaryan.rampal.dev',
 	integrations: [mdx(), sitemap()],
@@ -13,4 +15,6 @@ export default defineConfig({
 		remarkPlugins: [remarkMath],
 		rehypePlugins: [rehypeKatex],
 	},
+
+  adapter: cloudflare(),
 });
