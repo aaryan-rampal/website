@@ -1,0 +1,72 @@
+<h2>Three approaches to building this</h2>
+<p class="subtitle">Same visual design, same workflow — they differ in how much you customize vs. inherit from the starter template.</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#fff;border:1px solid #eee;padding:20px;font-family:Georgia,serif;font-size:13px;color:#333;">
+      <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#999;margin-bottom:12px">APPROACH A</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="background:#f5f5f5;padding:8px 12px;border-radius:3px;font-family:monospace;font-size:11px;color:#555;">website/ (existing Astro starter)</div>
+        <div style="padding-left:16px;font-family:monospace;font-size:11px;color:#888;">├── restyle global.css → serif + red accent</div>
+        <div style="padding-left:16px;font-family:monospace;font-size:11px;color:#888;">├── rewrite index.astro → your homepage</div>
+        <div style="padding-left:16px;font-family:monospace;font-size:11px;color:#888;">├── add remark-math + rehype-katex</div>
+        <div style="padding-left:16px;font-family:monospace;font-size:11px;color:#888;">├── replace header icons → LinkedIn/X/email</div>
+        <div style="padding-left:16px;font-family:monospace;font-size:11px;color:#888;">└── delete sample blog posts, add yours</div>
+        <div style="margin-top:8px;padding:8px;background:#fef3f2;border-left:3px solid #c0392b;font-size:11px;color:#c0392b;">Builds on what's already there</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Restyle the starter (recommended)</h3>
+      <p>Keep the Astro blog starter as-is, restyle it to match Literary Minimal, add LaTeX. Fastest path. The starter already has MDX, content collections, RSS, and a solid blog layout. No reason to rebuild what works.</p>
+      <div class="pros-cons">
+        <div class="pros"><h4>Pros</h4><ul><li>Done fastest</li><li>Proven blog infrastructure</li><li>Easy to maintain</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>Inherits some starter opinions on structure</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#fff;border:1px solid #eee;padding:20px;font-family:Georgia,serif;font-size:13px;color:#333;">
+      <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#999;margin-bottom:12px">APPROACH B</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="background:#f5f5f5;padding:8px 12px;border-radius:3px;font-family:monospace;font-size:11px;color:#555;">website/ (fresh Astro + manual setup)</div>
+        <div style="padding-left:16px;font-family:monospace;font-size:11px;color:#888;">├── design system in global.css from scratch</div>
+        <div style="padding-left:16px;font-family:monospace;font-size:11px;color:#888;">├── layouts/Base.astro + layouts/BlogPost.astro</div>
+        <div style="padding-left:16px;font-family:monospace;font-size:11px;color:#888;">├── content collections for blog</div>
+        <div style="padding-left:16px;font-family:monospace;font-size:11px;color:#888;">└── add math, syntax highlight, image support</div>
+        <div style="margin-top:8px;padding:8px;background:#f0f4ff;border-left:3px solid #2563eb;font-size:11px;color:#2563eb;">Cleaner starting point, more work upfront</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Build from a minimal Astro base</h3>
+      <p>Start from a blank Astro project and build only what you need. More upfront work but the codebase is yours from line 1 — no inherited opinions to work around.</p>
+      <div class="pros-cons">
+        <div class="pros"><h4>Pros</h4><ul><li>Clean, no legacy starter code</li><li>Full control over structure</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>More setup</li><li>Same end result as A</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#fff;border:1px solid #eee;padding:20px;font-family:Georgia,serif;font-size:13px;color:#333;">
+      <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#999;margin-bottom:12px">APPROACH C</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="background:#f5f5f5;padding:8px 12px;border-radius:3px;font-family:monospace;font-size:11px;color:#555;">website/ (Astro + Tailwind Typography)</div>
+        <div style="padding-left:16px;font-family:monospace;font-size:11px;color:#888;">├── @tailwindcss/typography for prose styling</div>
+        <div style="padding-left:16px;font-family:monospace;font-size:11px;color:#888;">├── custom Tailwind theme → serif + red</div>
+        <div style="padding-left:16px;font-family:monospace;font-size:11px;color:#888;">└── math, code blocks via plugins</div>
+        <div style="margin-top:8px;padding:8px;background:#f0fdf4;border-left:3px solid #059669;font-size:11px;color:#059669;">Utility-first, great prose defaults</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Astro + Tailwind Typography</h3>
+      <p>Add Tailwind and its Typography plugin. Gives you beautiful prose defaults out of the box — headings, code blocks, blockquotes all styled automatically in your blog posts.</p>
+      <div class="pros-cons">
+        <div class="pros"><h4>Pros</h4><ul><li>Best prose defaults</li><li>Easy to tweak</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>Tailwind is more complexity than you need</li><li>Overkill for a minimal site</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+</div>
