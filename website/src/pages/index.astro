@@ -1,10 +1,8 @@
 ---
-import { Image } from 'astro:assets';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
-import photo from '../assets/blog-placeholder-about.jpg';
 ---
 
 <!doctype html>
@@ -16,11 +14,9 @@ import photo from '../assets/blog-placeholder-about.jpg';
 		<Header />
 		<main>
 			<div class="profile">
-				<Image
-					src={photo}
+				<img
+					src="/pfp.png"
 					alt="Aaryan Rampal"
-					width={72}
-					height={72}
 					class="avatar"
 				/>
 				<div class="profile-text">
@@ -59,11 +55,12 @@ import photo from '../assets/blog-placeholder-about.jpg';
 	}
 
 	.avatar {
-		width: 72px;
-		height: 72px;
-		border-radius: 50%;
+		width: 160px;
+		height: 160px;
 		object-fit: cover;
 		flex-shrink: 0;
+		-webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 50%, transparent 100%);
+		mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 50%, transparent 100%);
 	}
 
 	.profile-text h1 {
