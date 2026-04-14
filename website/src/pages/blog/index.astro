@@ -1,0 +1,81 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import Footer from '../../components/Footer.astro';
+import Header from '../../components/Header.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+
+const posts = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={`Writing — ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<h1>Writing</h1>
+			<ul class="post-list">
+				{posts.map((post) => (
+					<li>
+						<a href={`/blog/${post.id}/`}>{post.data.title}</a>
+						<span class="date">
+							{post.data.pubDate.toLocaleDateString('en-US', {
+								year: 'numeric',
+								month: 'short',
+								day: 'numeric',
+							})}
+						</span>
+					</li>
+				))}
+			</ul>
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	h1 {
+		margin-bottom: 1.5em;
+	}
+
+	.post-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.post-list li {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		padding: 0.75em 0;
+		border-top: 1px solid var(--gray-light);
+		gap: 1em;
+	}
+
+	.post-list li:last-child {
+		border-bottom: 1px solid var(--gray-light);
+	}
+
+	.post-list a {
+		color: var(--accent);
+		font-size: 1em;
+		flex: 1;
+	}
+
+	.post-list a:hover {
+		border-bottom-color: var(--accent);
+	}
+
+	.date {
+		font-size: 0.8em;
+		color: var(--gray);
+		white-space: nowrap;
+		font-family: Georgia, serif;
+	}
+</style>
