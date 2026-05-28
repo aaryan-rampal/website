@@ -1,5 +1,4 @@
 ---
-import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 
 type Props = {
@@ -13,7 +12,14 @@ const { src, alt, caption, captionHref } = Astro.props;
 ---
 
 <figure class="blog-image">
-	<Image src={src} alt={alt} />
+	<img
+		src={src.src}
+		alt={alt}
+		loading="lazy"
+		decoding="async"
+		width={src.width}
+		height={src.height}
+	/>
 	{
 		caption && (
 			<figcaption>
