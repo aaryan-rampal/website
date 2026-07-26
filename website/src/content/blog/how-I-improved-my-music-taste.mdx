@@ -1,10 +1,11 @@
 ---
 title: "how I improved my music taste"
 pubDate: 2026-07-26
-draft: true
+draft: false
 ---
 
 import BlogImage from "../../components/BlogImage.astro";
+import BlogImageCarousel from "../../components/BlogImageCarousel.astro";
 import likedSongsCount from "../../assets/blog_images/liked-songs-count.png";
 import artistDistribution from "../../assets/blog_images/artist-distribution.png";
 import weeklyMixScript from "../../assets/blog_images/weekly-mix-48-script.jpg";
@@ -39,16 +40,18 @@ I gave myself a lot of credit here. The problem was, the way I consume music is 
 
 So, something had to change. I had to adjust this technique to better fit me. So on a random day in 2023 - where I clearly had much more important and pressing tasks to do because I decided to instead create this - I decided to put my CS skills to the test. I created a simple Python script which would take a random album from my backlog, a random song from that album, and add it to a playlist. It would do so until a pre-determined time limit had been reached. Voila! I had made my first ['Weekly Mix 48'](https://open.spotify.com/playlist/6WIjr4CmWGlHG9DxIPT3NM?si=2af5dc7a16974422). And what a mix it was!
 
-<BlogImage
-  src={weeklyMixScript}
-  alt="BeReal from December 1, 2023 captioned 'making a custom weekly mix', showing a laptop with the Python script open in an editor next to a terminal"
-  caption="BeReal, December 1, 2023: “making a custom weekly mix”."
-/>
-
-<BlogImage
-  src={weeklyMixPlaylist}
-  alt="BeReal from December 1, 2023 captioned 'ITS TOOO EASY', showing the finished Weekly Mix 48 playlist in Spotify with 17 songs, 58 min 41 sec, playing The Notorious B.I.G."
-  caption="Seventeen songs, 58 minutes, every one of them added nine seconds ago."
+<BlogImageCarousel
+  slides={[
+    {
+      src: weeklyMixScript,
+      alt: "BeReal from December 1, 2023 captioned 'making a custom weekly mix', showing a laptop with the Python script open in an editor next to a terminal",
+    },
+    {
+      src: weeklyMixPlaylist,
+      alt: "BeReal from December 1, 2023 captioned 'ITS TOOO EASY', showing the finished Weekly Mix 48 playlist in Spotify with 17 songs, 58 min 41 sec, playing The Notorious B.I.G.",
+    },
+  ]}
+  caption="BeReal, December 1, 2023. Seventeen songs, 58 minutes."
 />
 
 I actually quite enjoyed this creation of mine. I’d scour the internet for cool albums to listen to. Every week, I’d come back to the script, run it, and watch it generate a new playlist for me. It was dopamine-inducing. The rush, and the enticing allure of what I would spend the rest of the week listening to, was enough to keep me coming back…
@@ -61,7 +64,7 @@ I used cronjobs (anacron ftw, [here's why](https://askubuntu.com/a/848638)) to a
 
 ## Spotify Wrapped
 
-I've had a couple of embarassing #1s. Kanye in 2022, Drake in 2023, Mitski in 2024, Fike in 2025 (I'm actually quite okay with the last two). But, something that irked me, the top 5 looked pretty similar year-upon-year. It was usually encumbant with some combination of Kendrick, Drake, Kanye, J. Cole. and whichever artist I actually did actively discover and listen to that year. I don't remember actively listening to more of these artists. What was happening?
+I've had a couple of embarrassing #1s. Kanye in 2022, Drake in 2023, Mitski in 2024, Fike in 2025 (I'm actually quite okay with the last two). But something still irked me, the top 5 looked pretty similar year-upon-year. It was usually incumbant with some combination of Kendrick, Drake, Kanye, J. Cole. and whichever artist I actually did actively discover and listen to that year. I don't remember actively listening to more of these artists. What was happening?
 
 Here's a distribution of artists in my liked songs:
 
@@ -73,9 +76,9 @@ Here's a distribution of artists in my liked songs:
 
 This was a classic example of the law of large numbers. The frequency distribution of the (not so but still kind of) random draws from this set of songs would, over lots of trials, end up resembling the frequency distribution of the whole; i.e. this is why these guys keep sneaking into my wrapped.
 
-I don’t not like all these songs anymore. Sure, this is a representation of the person I am trying to deviate from - to branch out into different musical tastes. But that’s not to say I now objectively dislike the music I had once liked (though I do frequently filter this list whenever I happen upon a song I do not like – it’s not just a graveyard).
+I don’t _not_ like all these songs anymore. Sure, this is a representation of the person I am trying to deviate from - to branch out into different musical tastes. But that’s not to say I now objectively dislike the music I had once liked (though I do frequently filter this list whenever I happen upon a song I do not like – it’s not just a graveyard).
 
-The Final Product (skipping a few steps)
+## The Final Product (skipping a few steps)
 
 Basically, I realized the concern that I had could be resolved with this script. The script essentially became a hammer, and noticed quite a lot of nails lying around. I actually knew exactly how I wanted to consume music; it was just not in the most typical sense.
 

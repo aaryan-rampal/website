@@ -1,0 +1,295 @@
+---
+import type { ImageMetadata } from 'astro';
+
+type Slide = {
+	src: ImageMetadata;
+	alt: string;
+};
+
+type Props = {
+	slides: Slide[];
+	caption?: string;
+	captionHref?: string;
+};
+
+const { slides, caption, captionHref } = Astro.props;
+---
+
+<figure class="blog-carousel" data-carousel>
+	<div class="carousel-viewport">
+		<ul class="carousel-track" data-track>
+			{
+				slides.map((slide, i) => (
+					<li class="carousel-slide" data-slide aria-label={`${i + 1} of ${slides.length}`}>
+						<img
+							src={slide.src.src}
+							alt={slide.alt}
+							loading={i === 0 ? 'eager' : 'lazy'}
+							decoding="async"
+							width={slide.src.width}
+							height={slide.src.height}
+							draggable="false"
+						/>
+					</li>
+				))
+			}
+		</ul>
+
+		<button class="carousel-arrow prev" type="button" data-prev aria-label="Previous image" hidden>
+			<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+				<polyline points="15 4 7 12 15 20" />
+			</svg>
+		</button>
+		<button class="carousel-arrow next" type="button" data-next aria-label="Next image" hidden>
+			<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+				<polyline points="9 4 17 12 9 20" />
+			</svg>
+		</button>
+	</div>
+
+	<div class="carousel-dots" data-dots role="tablist" aria-label="Choose image" hidden>
+		{
+			slides.map((_, i) => (
+				<button
+					class="carousel-dot"
+					type="button"
+					data-dot
+					role="tab"
+					aria-label={`Go to image ${i + 1}`}
+					aria-selected={i === 0 ? 'true' : 'false'}
+				/>
+			))
+		}
+	</div>
+
+	{
+		caption && (
+			<figcaption>
+				{captionHref ? <a href={captionHref}>{caption}</a> : caption}
+			</figcaption>
+		)
+	}
+</figure>
+
+<style>
+	.blog-carousel {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		max-width: 100%;
+		margin: 2em auto;
+	}
+
+	.carousel-viewport {
+		position: relative;
+		width: 100%;
+	}
+
+	.carousel-track {
+		display: flex;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		overflow-x: auto;
+		scroll-snap-type: x mandatory;
+		scroll-behavior: smooth;
+		scrollbar-width: none;
+		-webkit-overflow-scrolling: touch;
+		overscroll-behavior-x: contain;
+	}
+
+	.carousel-track::-webkit-scrollbar {
+		display: none;
+	}
+
+	.carousel-slide {
+		flex: 0 0 100%;
+		scroll-snap-align: center;
+		display: flex;
+		justify-content: center;
+	}
+
+	.carousel-slide :global(img) {
+		display: block;
+		max-width: 100%;
+		max-height: 70vh;
+		width: auto;
+		height: auto;
+		object-fit: contain;
+		user-select: none;
+	}
+
+	.carousel-arrow {
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 2.25rem;
+		height: 2.25rem;
+		padding: 0;
+		border: 1px solid var(--gray-light);
+		border-radius: 50%;
+		background: rgba(250, 250, 248, 0.92);
+		color: var(--black);
+		cursor: pointer;
+		opacity: 0.75;
+		transition: opacity 0.15s ease, border-color 0.15s ease;
+	}
+
+	.carousel-arrow:hover {
+		opacity: 1;
+		border-color: var(--accent);
+		color: var(--accent);
+	}
+
+	.carousel-arrow:disabled {
+		opacity: 0.25;
+		cursor: default;
+		border-color: var(--gray-light);
+		color: var(--black);
+	}
+
+	.carousel-arrow svg {
+		width: 1.1rem;
+		height: 1.1rem;
+		fill: none;
+		stroke: currentColor;
+		stroke-width: 2;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+	}
+
+	.carousel-arrow.prev {
+		left: 0.5rem;
+	}
+
+	.carousel-arrow.next {
+		right: 0.5rem;
+	}
+
+	.carousel-dots {
+		display: flex;
+		gap: 0.5rem;
+		margin-top: 0.75em;
+	}
+
+	.carousel-dot {
+		width: 0.5rem;
+		height: 0.5rem;
+		padding: 0;
+		border: 1px solid var(--gray);
+		border-radius: 50%;
+		background: transparent;
+		cursor: pointer;
+		transition: background-color 0.15s ease, border-color 0.15s ease;
+	}
+
+	.carousel-dot[aria-selected='true'] {
+		background: var(--accent);
+		border-color: var(--accent);
+	}
+
+	.blog-carousel figcaption {
+		margin-top: 0.5em;
+		opacity: 0.65;
+		font-size: 0.9em;
+		font-style: italic;
+		line-height: 1.4;
+		text-align: center;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.carousel-track {
+			scroll-behavior: auto;
+		}
+	}
+</style>
+
+<script>
+	class Carousel {
+		private track: HTMLElement;
+		private slides: HTMLElement[];
+		private dots: HTMLButtonElement[];
+		private prev: HTMLButtonElement | null;
+		private next: HTMLButtonElement | null;
+		private index = 0;
+
+		constructor(root: HTMLElement) {
+			this.track = root.querySelector('[data-track]') as HTMLElement;
+			this.slides = Array.from(root.querySelectorAll<HTMLElement>('[data-slide]'));
+			this.dots = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-dot]'));
+			this.prev = root.querySelector('[data-prev]');
+			this.next = root.querySelector('[data-next]');
+
+			if (this.slides.length < 2) return;
+
+			const dotsWrap = root.querySelector<HTMLElement>('[data-dots]');
+			if (dotsWrap) dotsWrap.hidden = false;
+			if (this.prev) this.prev.hidden = false;
+			if (this.next) this.next.hidden = false;
+
+			this.prev?.addEventListener('click', () => this.go(this.index - 1));
+			this.next?.addEventListener('click', () => this.go(this.index + 1));
+			this.dots.forEach((dot, i) => dot.addEventListener('click', () => this.go(i)));
+
+			this.track.addEventListener('keydown', (e) => this.onKey(e as KeyboardEvent));
+			this.track.tabIndex = 0;
+			this.track.setAttribute('role', 'group');
+			this.track.setAttribute('aria-label', 'Image carousel');
+
+			this.watchScroll();
+			this.sync();
+		}
+
+		private onKey(e: KeyboardEvent) {
+			if (e.key === 'ArrowLeft') {
+				e.preventDefault();
+				this.go(this.index - 1);
+			} else if (e.key === 'ArrowRight') {
+				e.preventDefault();
+				this.go(this.index + 1);
+			}
+		}
+
+		private watchScroll() {
+			const observer = new IntersectionObserver(
+				(entries) => {
+					for (const entry of entries) {
+						if (entry.isIntersecting) {
+							this.index = this.slides.indexOf(entry.target as HTMLElement);
+							this.sync();
+						}
+					}
+				},
+				{ root: this.track, threshold: 0.6 },
+			);
+			this.slides.forEach((slide) => observer.observe(slide));
+		}
+
+		private go(to: number) {
+			const clamped = Math.max(0, Math.min(to, this.slides.length - 1));
+			const slide = this.slides[clamped];
+			if (!slide) return;
+			this.track.scrollTo({ left: slide.offsetLeft - this.track.offsetLeft });
+		}
+
+		private sync() {
+			this.dots.forEach((dot, i) =>
+				dot.setAttribute('aria-selected', i === this.index ? 'true' : 'false'),
+			);
+			if (this.prev) this.prev.disabled = this.index === 0;
+			if (this.next) this.next.disabled = this.index === this.slides.length - 1;
+		}
+	}
+
+	function init() {
+		document
+			.querySelectorAll<HTMLElement>('[data-carousel]')
+			.forEach((root) => new Carousel(root));
+	}
+
+	init();
+	document.addEventListener('astro:after-swap', init);
+</script>
